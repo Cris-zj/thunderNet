@@ -258,16 +258,16 @@ def main():
     test_loader=Data.DataLoader(ImageSet(root,val),batch_size=1)
     net=ThunderNet(len(cfg.anchor),cfg.database_class_num).to(device)
     solver=Solver(net,train_loader,test_loader,cfg.epoch)
-    solver.continue_train("./model11.pth.tar")
-    # solver()
+    solver.continue_train("./model12.pth.tar")  #断点回复训练
+    # solver()  #从头开始训练
     solver.save(None)
-    #-------------------------------------------
+    #--------------------测试部分-----------------------
     # root='/home/huangeryu/Desktop/test'
     # fileList=os.listdir(root)
     # imagelist=[item for item in fileList if item.endswith('.jpg')]
     # for item in imagelist:
     #     imgPath=os.path.join(root,item)
-    #     forwardOnly(imgPath,"./model5.pth.tar",cfg.input_hight,cfg.input_width)
+    #     forwardOnly(imgPath,"./model11.pth.tar",cfg.input_hight,cfg.input_width)
     
 
 def forwardOnly(imgPath,modeDir,rows=320,cols=320):
@@ -317,7 +317,7 @@ def forwardOnly(imgPath,modeDir,rows=320,cols=320):
     scores=scores[selectedIndex]
     pos_box=pos_box[selectedIndex]
     cls_result=cls_result[selectedIndex]
-    nms_index=ops.nms(pos_box,scores,0.3)
+    nms_index=ops.nms(pos_box,scores,0.5)
     for i in nms_index:
         box=pos_box[i]
         cv2.rectangle(img,(box[0],box[1]),(box[2],box[3]),(255,255,0))

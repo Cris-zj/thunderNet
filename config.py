@@ -78,7 +78,7 @@ class Config:
     saved_interval=1
 
     #学习率设置
-    lr=0.01
+    lr=0.1
     lr_step=10
     momentum=0.9
     gamma=1

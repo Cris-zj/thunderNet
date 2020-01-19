@@ -85,7 +85,22 @@ class Shufflev2Net(nn.Module):
             return c4,c5,cglb
         else:
             cglb=c4.mean([2,3]).view(c4.size(0),c4.size(1),1,1)
-            return c3,c4,cglb 
+            return c3,c4,cglb
+
+class SNet146(nn.Module):
+    def __init__(self,shufflev2Net):
+        super(SNet146,self).__init__()
+        self.shuffleNet=shufflev2Net
+
+    def forward(self,x):
+        _,_,cglb=self.shuffleNet(x)
+        cglb=cglb.view(cglb.size(0),-1)
+        x=self.shuffleNet.fc(cglb)
+        return x
+    
+    def calcuLoss(self,x,gt_label):
+        loss=F.cross_entropy(x,gt_label,reduction="sum")
+        return loss
 
 class CEM(nn.Module):
     def __init__(self,in_channels,out_channels):

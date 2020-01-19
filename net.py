@@ -257,6 +257,7 @@ def main():
     train_loader=Data.DataLoader(ImageSet(root,train),batch_size=1,shuffle=True)
     test_loader=Data.DataLoader(ImageSet(root,val),batch_size=1)
     net=ThunderNet(len(cfg.anchor),cfg.database_class_num).to(device)
+    pdb.set_trace()
     solver=Solver(net,train_loader,test_loader,cfg.epoch)
     solver.continue_train("./model12.pth.tar")  #断点回复训练
     # solver()  #从头开始训练
